@@ -1,16 +1,13 @@
 # pdf_viewer
 
-A new Flutter project.
+An app to view, share, and print PDFs
 
-## Getting Started
+## requirements
+* can load a PDF from the local device
+* can open a shared link to a PDF
+* can share a PDF
+* can print a PDF
+* can view a list of recent PDFs
+* can scroll, zoom, next/ previous page through a PDF
+* can go to a given page in a PDF
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
