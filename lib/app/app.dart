@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pdf_viewer/app/screens/pdf_list.dart';
+import 'package:pdf_viewer/app/routes.dart';
+
 
 class PDFViewerApp extends StatelessWidget {
   const PDFViewerApp({Key? key}) : super(key: key);
@@ -11,7 +12,18 @@ class PDFViewerApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const PdfList(),
+      initialRoute: "/",
+      onGenerateRoute: _routes,
     );
+  }
+}
+
+Route _routes(RouteSettings routeSettings){
+  switch(routeSettings.name){
+    case "/" :
+      return getListView(settings: routeSettings);
+    case "/viewer":
+      return getPDFViewer(settings: routeSettings);
+    default:  return getListView(settings: routeSettings);
   }
 }
