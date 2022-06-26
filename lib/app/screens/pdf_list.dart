@@ -16,15 +16,12 @@ class PdfList extends StatefulWidget {
 class _PdfListState extends State<PdfList> {
   File? currentFile;
 
-
-
   @override
   Widget build(BuildContext context) {
-    
-    onClickLaunchFilePicker() async{
-      currentFile =  await _getFile();
-      if(!mounted || currentFile == null) return;
-      PDFFileModel f = PDFFileModel(file: currentFile!);
+    onClickLaunchFilePicker() async {
+      PDFFileModel? result = await getPlatformFile();
+      if (!mounted || result == null) return;
+      PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
       Navigator.of(context).pushNamed("/viewer", arguments: f);
     }
 
@@ -36,11 +33,28 @@ class _PdfListState extends State<PdfList> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text("PDF List Page"),
-              TextButton(onPressed: (){
-                Navigator.pushNamed(context, "/viewer");
-              }, child: const Text("test next page")),
-               ElevatedButton(onPressed: onClickLaunchFilePicker, child: const Text("launch file picker")),
+              const Text(
+                "PDF List Page",
+                style: TextStyle(fontSize: 60),
+              ),
+              const Divider(
+                height: 60.0,
+              ),
+              ElevatedButton.icon(
+                onPressed: onClickLaunchFilePicker,
+                icon: const Icon(
+                  Icons.picture_as_pdf,
+                  color: Colors.red,
+                  size: 45.0,
+                ),
+                label: const Text("View PDF"),
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30.0, horizontal: 50.0),
+                  textStyle: const TextStyle(fontSize: 45),
+                  elevation: 10.0,
+                ),
+              ),
             ],
           ),
         ),
@@ -48,7 +62,6 @@ class _PdfListState extends State<PdfList> {
     );
   }
 }
-
 
 // prompt user for file
 // if file, then navigate to viewer page
@@ -59,12 +72,15 @@ class _PdfListState extends State<PdfList> {
 
 // if no file, then stay on page
 
+// Future<File?> _getFile() async {
+//   FilePickerResult? result = await FilePicker.platform.pickFiles();
+//   if (result == null) return null;
+//   return File(result.files.first.path!);
+// }
 
-
-
-
- Future<File?> _getFile() async{
+Future<PDFFileModel?> getPlatformFile()async{
   FilePickerResult? result = await FilePicker.platform.pickFiles();
   if (result == null) return null;
-  return File(result.files.first.path!);
+  PDFFileModel model = PDFFileModel(file: File(result.files.first.path!), title: result.files.first.name);
+  return model;
 }
