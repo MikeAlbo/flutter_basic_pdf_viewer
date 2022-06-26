@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/screens/pdf_list.dart';
 import 'package:pdf_viewer/app/screens/pdf_viewer.dart';
 
+import 'models/pdfFileModel.dart';
+
 Route getListView({required RouteSettings settings}){
   return MaterialPageRoute(builder: (BuildContext context){
     return const PdfList();
@@ -10,6 +12,6 @@ Route getListView({required RouteSettings settings}){
 
 Route getPDFViewer({required RouteSettings settings}){
   return MaterialPageRoute(builder: (BuildContext context){
-    return const PDFViewer();
+    return PDFViewerScreen(pdfFileModel: settings.arguments as PDFFileModel);
   });
 }

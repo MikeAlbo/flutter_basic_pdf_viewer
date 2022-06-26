@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:file_picker/file_picker.dart';
 
+import '../models/pdfFileModel.dart';
+
 class PdfList extends StatefulWidget {
   const PdfList({Key? key}) : super(key: key);
 
@@ -14,8 +16,18 @@ class PdfList extends StatefulWidget {
 class _PdfListState extends State<PdfList> {
   File? currentFile;
 
+
+
   @override
   Widget build(BuildContext context) {
+    
+    onClickLaunchFilePicker() async{
+      currentFile =  await _getFile();
+      if(!mounted || currentFile == null) return;
+      PDFFileModel f = PDFFileModel(file: currentFile!);
+      Navigator.of(context).pushNamed("/viewer", arguments: f);
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: buildAppBar(title: "PDF List"),
@@ -28,7 +40,7 @@ class _PdfListState extends State<PdfList> {
               TextButton(onPressed: (){
                 Navigator.pushNamed(context, "/viewer");
               }, child: const Text("test next page")),
-              const ElevatedButton(onPressed: _getFile, child: Text("launch file picker")),
+               ElevatedButton(onPressed: onClickLaunchFilePicker, child: const Text("launch file picker")),
             ],
           ),
         ),
@@ -38,15 +50,21 @@ class _PdfListState extends State<PdfList> {
 }
 
 
+// prompt user for file
+// if file, then navigate to viewer page
+// load pdf inside viewer page
+// while loading display loading icon
+// display file
+// if error loading, display error
 
-Future<File?> _getFile() async{
+// if no file, then stay on page
+
+
+
+
+
+ Future<File?> _getFile() async{
   FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-  if (result != null) {
-    File file = File(result.files.single.path!);
-    return file;
-  } else {
-    // User canceled the picker
-    return null;
-  }
+  if (result == null) return null;
+  return File(result.files.first.path!);
 }

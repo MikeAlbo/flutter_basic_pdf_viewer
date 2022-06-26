@@ -1,27 +1,46 @@
+
 import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
-class PDFViewer extends StatefulWidget {
-  const PDFViewer({Key? key}) : super(key: key);
+import '../models/pdfFileModel.dart';
+
+class PDFViewerScreen extends StatefulWidget {
+  final PDFFileModel pdfFileModel;
+  const PDFViewerScreen({Key? key,  required this.pdfFileModel}) : super(key: key);
 
   @override
-  State<PDFViewer> createState() => _PDFViewerState();
+  State<PDFViewerScreen> createState() => _PDFViewerScreenState();
 }
 
-class _PDFViewerState extends State<PDFViewer> {
+class _PDFViewerScreenState extends State<PDFViewerScreen> {
+  bool _isLoading = true;
+  late PDFDocument document;
+
+
+  @override
+  void initState(){
+    loadPDF(widget.pdfFileModel);
+    super.initState();
+  }
+
+  loadPDF(PDFFileModel file) async{
+    //setState(()=> _isLoading = true);
+    document = await PDFDocument.fromFile(file.file);
+    setState(()=> _isLoading = false);
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+    //loadPDF(file);
+
     return SafeArea(
       child: Scaffold(
         appBar: buildAppBar(title: "PDF Viewer"),
-        body: Center(child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text("PDF List Page"),
-            TextButton(onPressed: ()=> Navigator.pop(context), child: const Text("back")),
-          ],
-        ),),
+        body: Center(child: _isLoading? const Center(child: CircularProgressIndicator(),): PDFViewer(document: document, zoomSteps: 1,),
+        ),
       ),
     );
   }

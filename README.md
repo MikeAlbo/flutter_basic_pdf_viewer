@@ -11,3 +11,5 @@ An app to view, share, and print PDFs
 * can scroll, zoom, next/ previous page through a PDF
 * can go to a given page in a PDF
 
+## packages
+[file_picker 4.6.1 ](https://pub.dev/packages/file_picker)
