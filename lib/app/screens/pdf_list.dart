@@ -63,20 +63,7 @@ class _PdfListState extends State<PdfList> {
   }
 }
 
-// prompt user for file
-// if file, then navigate to viewer page
-// load pdf inside viewer page
-// while loading display loading icon
-// display file
 // if error loading, display error
-
-// if no file, then stay on page
-
-// Future<File?> _getFile() async {
-//   FilePickerResult? result = await FilePicker.platform.pickFiles();
-//   if (result == null) return null;
-//   return File(result.files.first.path!);
-// }
 
 Future<PDFFileModel?> getPlatformFile()async{
   FilePickerResult? result = await FilePicker.platform.pickFiles();
