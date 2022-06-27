@@ -14,15 +14,23 @@ class PdfList extends StatefulWidget {
 }
 
 class _PdfListState extends State<PdfList> {
-  File? currentFile;
 
   @override
   Widget build(BuildContext context) {
+
     onClickLaunchFilePicker() async {
-      PDFFileModel? result = await getPlatformFile();
+      List<PDFFileModel>? result = await getPlatformFile();
       if (!mounted || result == null) return;
-      PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
-      Navigator.of(context).pushNamed("/viewer", arguments: f);
+
+      //PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
+      if (result.length > 1){
+        for(var pdf in result){
+          print(pdf.title); //  TODO:handle multiple files
+        }
+      }
+      else {
+        Navigator.of(context).pushNamed("/viewer", arguments: result.first);
+      }
     }
 
     return SafeArea(
@@ -64,10 +72,28 @@ class _PdfListState extends State<PdfList> {
 }
 
 // if error loading, display error
+// allow multi-picker
+// allow only PDFs
+// Convert results to to List<PDF...>
+// check to see if results is null
+// check length of results
+// if 1, open file immediately
+// if > 1, ??? maybe open modal, display files || load first file and have navigation to other files
 
-Future<PDFFileModel?> getPlatformFile()async{
-  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+Future<List<PDFFileModel>?> getPlatformFile()async{
+  List<String> allowedFIleTypes = ["pdf"];
+  List<PDFFileModel> listOfModels;
+
+  FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: allowedFIleTypes, allowMultiple: true);
+
   if (result == null) return null;
-  PDFFileModel model = PDFFileModel(file: File(result.files.first.path!), title: result.files.first.name);
-  return model;
+
+  listOfModels = result.files.map((f) => (PDFFileModel(file: File(f.path!), title: f.name ))).toList();
+
+  for (var element in listOfModels) {
+    print(element.title);
+  }
+
+  return listOfModels;
 }
