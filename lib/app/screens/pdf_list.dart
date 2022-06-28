@@ -72,14 +72,7 @@ class _PdfListState extends State<PdfList> {
 }
 
 // if error loading, display error
-// allow multi-picker
-// allow only PDFs
-// Convert results to to List<PDF...>
-// check to see if results is null
-// check length of results
-// if 1, open file immediately
 // if > 1, ??? maybe open modal, display files || load first file and have navigation to other files
-
 
 Future<List<PDFFileModel>?> getPlatformFile()async{
   List<String> allowedFIleTypes = ["pdf"];
@@ -90,10 +83,6 @@ Future<List<PDFFileModel>?> getPlatformFile()async{
   if (result == null) return null;
 
   listOfModels = result.files.map((f) => (PDFFileModel(file: File(f.path!), title: f.name ))).toList();
-
-  for (var element in listOfModels) {
-    print(element.title);
-  }
 
   return listOfModels;
 }
