@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:pdf_viewer/app/widgets/list_placeholder_page.dart';
 
 import '../models/pdfFileModel.dart';
 
@@ -18,7 +19,7 @@ class _PdfListState extends State<PdfList> {
   @override
   Widget build(BuildContext context) {
 
-    onClickLaunchFilePicker() async {
+    void onClickLaunchFilePicker() async {
       List<PDFFileModel>? result = await getPlatformFile();
       if (!mounted || result == null) return;
 
@@ -37,34 +38,7 @@ class _PdfListState extends State<PdfList> {
       child: Scaffold(
         appBar: buildAppBar(title: "PDF List"),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "PDF List Page",
-                style: TextStyle(fontSize: 60),
-              ),
-              const Divider(
-                height: 60.0,
-              ),
-              ElevatedButton.icon(
-                onPressed: onClickLaunchFilePicker,
-                icon: const Icon(
-                  Icons.picture_as_pdf,
-                  color: Colors.red,
-                  size: 45.0,
-                ),
-                label: const Text("View PDF"),
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30.0, horizontal: 50.0),
-                  textStyle: const TextStyle(fontSize: 45),
-                  elevation: 10.0,
-                ),
-              ),
-            ],
-          ),
+          child: ListPlaceholderPage(openFileBrowser: onClickLaunchFilePicker,),
         ),
       ),
     );
