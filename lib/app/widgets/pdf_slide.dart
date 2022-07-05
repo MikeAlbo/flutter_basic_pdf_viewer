@@ -1,9 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 // A PDF slide to preview either the first page of a document or an individual page for page scroll
 
 class PdfSlide extends StatefulWidget {
-  const PdfSlide({Key? key}) : super(key: key);
+  final bool isFileSlide; // vs. pageSlide
+  final String? path;
+  final File? file; //used to grab page, possibly should be PDFDocument
+
+
+  const PdfSlide({Key? key, required this.isFileSlide, this.path, this.file})
+      : super(key: key);
 
   @override
   State<PdfSlide> createState() => _PdfSlideState();
@@ -12,7 +20,10 @@ class PdfSlide extends StatefulWidget {
 class _PdfSlideState extends State<PdfSlide> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      color: Colors.amber,
+      child: Text(widget.isFileSlide ? widget.path! : widget.file!.path),
+    );
   }
 }
 

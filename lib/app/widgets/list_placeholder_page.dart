@@ -15,7 +15,7 @@ class ListPlaceholderPage extends StatelessWidget {
         Text("No PDF files yet!",
             style: Theme.of(context).textTheme.displaySmall),
         const Divider(
-          height: 20.0,
+          height: 10.0,
         ),
         Text(
           "to view files, open the file browser below!",
@@ -24,11 +24,17 @@ class ListPlaceholderPage extends StatelessWidget {
         const Divider(
           height: 20.0,
         ),
-        IconButton(
+        OutlinedButton(
+          style: const ButtonStyle(
+              elevation: MaterialStatePropertyAll(5.0),
+              padding: MaterialStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0)),
+              backgroundColor:
+                  MaterialStatePropertyAll<Color>(Colors.lightBlue)),
           onPressed: openFileBrowser,
-          icon: Icon(
-            Icons.add_circle_outline,
-            color: Colors.red[300],
+          child: const Icon(
+            Icons.picture_as_pdf_rounded,
+            color: Colors.white,
             size: 50.0,
           ),
         ),

@@ -6,6 +6,7 @@ import '../models/pdfFileModel.dart';
 
 class PDFViewerScreen extends StatefulWidget {
   final PDFFileModel pdfFileModel;
+
   const PDFViewerScreen({Key? key, required this.pdfFileModel})
       : super(key: key);
 
@@ -33,12 +34,12 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
   Widget build(BuildContext context) {
     //loadPDF(file);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: buildAppBar(
-            title:
-                "PDF View:  ${_isLoading ? 'Loading...' : widget.pdfFileModel.title!}"),
-        body: Center(
+    return Scaffold(
+      appBar: buildAppBar(
+          title:
+              "PDF View:  ${_isLoading ? 'Loading...' : widget.pdfFileModel.title!}"),
+      body: SafeArea(
+        child: Center(
           child: _isLoading
               ? const Center(
                   child: CircularProgressIndicator(),
