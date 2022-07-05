@@ -37,8 +37,11 @@ dependencies:
   file_picker: ^4.6.1
   advance_pdf_viewer: ^2.0.1
   hive: ^2.2.3
+  hive_flutter: any
 
 dev_dependencies:
+  hive_generator: any
+  build_runner: ^1.7.2
   flutter_test:
     sdk: flutter
 
