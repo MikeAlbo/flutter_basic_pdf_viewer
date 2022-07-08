@@ -28,6 +28,8 @@ class BoxProvider {
 
   Box<PdfDataModel> get getPreviousViewBox => _previousViewBox();
 
+  Box<PdfDataModel> get getCurrentViewBox => _currentViewBox();
+
 // add selected files to box (temp storage)
   void addFilesToLocalStorage(
       {required List<PDFFileModel> files, required BoxType box}) async {
@@ -45,9 +47,20 @@ class BoxProvider {
       }
     }
   }
+
+  // get the list of files from the currentViewBox
+  List<PdfDataModel> getFilesFromCurrent() {
+    return _currentViewBox().values.toList();
+  }
+
 // remove a single file from box (UI control)
 
 // remove all files from box (upon dispose / called when new files selected)
+  void removeFilesFromBox({required BoxType boxType}) {
+    boxType == BoxType.currentView
+        ? _currentViewBox().clear()
+        : _previousViewBox().clear();
+  }
 
 // dispose hive box
 }

@@ -25,12 +25,12 @@ class _PdfListState extends State<PdfList> {
       List<PDFFileModel>? result = await getPlatformFile();
       if (!mounted || result == null) return;
 
+      getBoxProvider.addFilesToLocalStorage(
+          files: result, box: BoxType.currentView);
+
       //PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
       if (result.length > 1) {
-        // showMultiFileModal(list: result, context: context);
-        for (var pdf in result) {
-          print(pdf.title); //  TODO:handle multiple files
-        }
+        Navigator.of(context).pushNamed("/multiFileSelected");
       } else {
         Navigator.of(context).pushNamed("/viewer", arguments: result.first);
       }
@@ -42,7 +42,11 @@ class _PdfListState extends State<PdfList> {
     return Scaffold(
       appBar: buildAppBar(title: "PDF List", actions: [
         IconButton(
-            onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add))
+            onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
+        IconButton(
+            onPressed: () => getBoxProvider.removeFilesFromBox(
+                boxType: BoxType.previouslyViewed),
+            icon: const Icon(Icons.clear_all)),
       ]),
       body: SafeArea(
         child: ValueListenableBuilder<Box<PdfDataModel>>(

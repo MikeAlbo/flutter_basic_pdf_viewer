@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/routes.dart';
 
-
 class PDFViewerApp extends StatelessWidget {
   const PDFViewerApp({Key? key}) : super(key: key);
 
@@ -18,12 +17,15 @@ class PDFViewerApp extends StatelessWidget {
   }
 }
 
-Route _routes(RouteSettings routeSettings){
-  switch(routeSettings.name){
-    case "/" :
+Route _routes(RouteSettings routeSettings) {
+  switch (routeSettings.name) {
+    case "/":
       return getListView(settings: routeSettings);
     case "/viewer":
       return getPDFViewer(settings: routeSettings);
-    default:  return getListView(settings: routeSettings);
+    case "/multiFileSelected":
+      return getMultiFileSelectedView(settings: routeSettings);
+    default:
+      return getListView(settings: routeSettings);
   }
 }
