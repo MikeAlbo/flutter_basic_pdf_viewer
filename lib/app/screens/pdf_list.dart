@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pdf_viewer/app/API/box_provider.dart';
+import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:pdf_viewer/app/widgets/list_placeholder_page.dart';
+import 'package:date_format/date_format.dart';
 
 import '../models/pdfFileModel.dart';
 
@@ -30,15 +34,39 @@ class _PdfListState extends State<PdfList> {
       } else {
         Navigator.of(context).pushNamed("/viewer", arguments: result.first);
       }
+
+      getBoxProvider.addFilesToLocalStorage(
+          files: result, box: BoxType.previouslyViewed);
     }
 
     return Scaffold(
-      appBar: buildAppBar(title: "PDF List"),
+      appBar: buildAppBar(title: "PDF List", actions: [
+        IconButton(
+            onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add))
+      ]),
       body: SafeArea(
-        child: Center(
-          child: ListPlaceholderPage(
-            openFileBrowser: onClickLaunchFilePicker,
-          ),
+        child: ValueListenableBuilder<Box<PdfDataModel>>(
+          valueListenable: getBoxProvider.getPreviousViewBox.listenable(),
+          builder: (context, box, _) {
+            final files = box.values.toList().cast<PdfDataModel>();
+            if (files.isEmpty) {
+              return ListPlaceholderPage(
+                  openFileBrowser: onClickLaunchFilePicker);
+            }
+            return ListView.builder(
+              itemCount: files.length,
+              itemBuilder: (BuildContext ctx, int index) {
+                return ListTile(
+                  title: Text(files[index].fileName),
+                  subtitle: Text(formatDate(
+                      files[index].lastViewedDate, [mm, "/", dd, "/", yyyy])),
+                  trailing: Icon(files[index].pinned
+                      ? Icons.favorite
+                      : Icons.favorite_border),
+                );
+              },
+            );
+          },
         ),
       ),
     );
