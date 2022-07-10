@@ -19,52 +19,42 @@ class PdfSlide extends StatefulWidget {
 class _PdfSlideState extends State<PdfSlide> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.all(
-          Radius.circular(5.0),
-        ),
-      ),
-      //color: Colors.blueGrey,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Flexible(child: PdfImage(pdfKey: widget.pdfDataModel.key)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  widget.pdfDataModel.fileName,
-                  softWrap: true,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleSmall!,
-                ),
-                Text(
-                  getDirFromPath(path: widget.pdfDataModel.path),
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                Text(
-                  "date added: ${formatDate(widget.pdfDataModel.addDate, [
-                        mm,
-                        "/",
-                        dd,
-                        "/",
-                        yyyy
-                      ])}",
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Flexible(child: PdfImage(pdfKey: widget.pdfDataModel.key)),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                modifyTitle(title: widget.pdfDataModel.fileName),
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleSmall!,
+              ),
+              // Text(
+              //   getDirFromPath(path: widget.pdfDataModel.path),
+              //   style: Theme.of(context).textTheme.caption,
+              // ),
+              // Text(
+              //   "date added: ${formatDate(widget.pdfDataModel.addDate, [
+              //         mm,
+              //         "/",
+              //         dd,
+              //         "/",
+              //         yyyy
+              //       ])}",
+              //   style: Theme.of(context).textTheme.caption,
+              // ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -73,6 +63,12 @@ class _PdfSlideState extends State<PdfSlide> {
 String getDirFromPath({required String path}) {
   String d = p.basename(p.dirname(path));
   return d.substring(d.lastIndexOf(".") + 1);
+}
+
+String modifyTitle({int length = 30, required String title}) {
+  return title.length > length
+      ? title.replaceRange(length, title.length, "...")
+      : title;
 }
 
 //  TODO: slide should have a caption (file name or page number
@@ -138,7 +134,13 @@ class PdfImage extends StatelessWidget {
             return const CircularProgressIndicator();
           }
 
-          return Center(
+          return Container(
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(3.0)),
+                border: Border.all(
+                  width: 0.5,
+                  color: Colors.black54,
+                )),
             child: snapshot.data,
           );
         });

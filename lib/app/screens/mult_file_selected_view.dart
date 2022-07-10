@@ -59,31 +59,30 @@ class ListedFiles extends StatelessWidget {
       // print("tapped: ${fileModel.title}, path: ${fileModel.file}");
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ValueListenableBuilder(
-        valueListenable: getBoxProvider.getCurrentViewBox.listenable(),
-        builder: (context, box, _) {
-          final files = box.values.toList().cast<PdfDataModel>();
-          if (files.isEmpty) {
-            return const Text("No Files Selected");
-          }
-          return GridView.builder(
-              gridDelegate: delegate,
-              itemCount: files.length,
-              itemBuilder: (BuildContext ctx, int index) {
-                if (files.isEmpty) {
-                  return const Text("No Files Selected!");
-                }
-                return GestureDetector(
-                  onTap: () => onClickNavigateTo(files[index]),
-                  child: PdfSlide(
-                    pdfDataModel: files[index],
-                  ),
-                );
-              });
-        },
-      ),
+    return ValueListenableBuilder(
+      valueListenable: getBoxProvider.getCurrentViewBox.listenable(),
+      builder: (context, box, _) {
+        final files = box.values.toList().cast<PdfDataModel>();
+        if (files.isEmpty) {
+          return const Text("No Files Selected");
+        }
+        return GridView.builder(
+            padding:
+                const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+            gridDelegate: delegate,
+            itemCount: files.length,
+            itemBuilder: (BuildContext ctx, int index) {
+              if (files.isEmpty) {
+                return const Text("No Files Selected!");
+              }
+              return GestureDetector(
+                onTap: () => onClickNavigateTo(files[index]),
+                child: PdfSlide(
+                  pdfDataModel: files[index],
+                ),
+              );
+            });
+      },
     );
   }
 }
@@ -91,5 +90,5 @@ class ListedFiles extends StatelessWidget {
 SliverGridDelegate delegate = const SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 200,
     childAspectRatio: 3 / 2,
-    crossAxisSpacing: 20,
-    mainAxisSpacing: 20);
+    crossAxisSpacing: 10,
+    mainAxisSpacing: 15);

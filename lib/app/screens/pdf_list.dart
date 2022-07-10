@@ -44,9 +44,8 @@ class _PdfListState extends State<PdfList> {
         IconButton(
             onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
         IconButton(
-            onPressed: () =>
-                getBoxProvider.removeFilesFromBox(
-                    boxType: BoxType.previouslyViewed),
+            onPressed: () => getBoxProvider.removeFilesFromBox(
+                boxType: BoxType.previouslyViewed),
             icon: const Icon(Icons.clear_all)),
       ]),
       body: SafeArea(
@@ -82,6 +81,7 @@ class _PdfListState extends State<PdfList> {
 // if > 1, ??? maybe open modal, display files || load first file and have navigation to other files
 
 Future<List<PDFFileModel>?> getPlatformFile() async {
+  await getBoxProvider.getCurrentViewBox.clear();
   List<String> allowedFIleTypes = ["pdf"];
   List<PDFFileModel> listOfModels;
 
