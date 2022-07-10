@@ -44,8 +44,9 @@ class _PdfListState extends State<PdfList> {
         IconButton(
             onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
         IconButton(
-            onPressed: () => getBoxProvider.removeFilesFromBox(
-                boxType: BoxType.previouslyViewed),
+            onPressed: () =>
+                getBoxProvider.removeFilesFromBox(
+                    boxType: BoxType.previouslyViewed),
             icon: const Icon(Icons.clear_all)),
       ]),
       body: SafeArea(

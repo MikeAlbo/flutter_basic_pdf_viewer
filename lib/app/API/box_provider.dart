@@ -40,11 +40,9 @@ class BoxProvider {
         ..pinned = false
         ..addDate = DateTime.now()
         ..lastViewedDate = DateTime.now();
-      if (box == BoxType.currentView) {
-        await _currentViewBox().add(fileData);
-      } else {
-        await _previousViewBox().add(fileData);
-      }
+      box == BoxType.currentView
+          ? await _currentViewBox().add(fileData)
+          : await _previousViewBox().add(fileData);
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pdf_viewer/app/API/box_provider.dart';
@@ -5,11 +7,10 @@ import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:pdf_viewer/app/widgets/pdf_slide.dart';
 
 import '../models/hive/pdf_data_model.dart';
+import '../models/pdfFileModel.dart';
 
 class MultiFileSelectedView extends StatelessWidget {
-
-  const MultiFileSelectedView({Key? key})
-      : super(key: key);
+  const MultiFileSelectedView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,7 @@ class Subtitle extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Text(
           subtitle,
-          style: Theme
-              .of(context)
-              .textTheme
-              .titleLarge,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
     );
@@ -50,12 +48,17 @@ class Subtitle extends StatelessWidget {
 }
 
 class ListedFiles extends StatelessWidget {
-
-
   const ListedFiles({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    onClickNavigateTo(PdfDataModel pdf) {
+      PDFFileModel fileModel =
+          PDFFileModel(file: File(pdf.path), title: pdf.fileName);
+      Navigator.of(context).pushNamed("/viewer", arguments: fileModel);
+      // print("tapped: ${fileModel.title}, path: ${fileModel.file}");
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ValueListenableBuilder(
@@ -72,8 +75,11 @@ class ListedFiles extends StatelessWidget {
                 if (files.isEmpty) {
                   return const Text("No Files Selected!");
                 }
-                return PdfSlide(
-                  pdfDataModel: files[index],
+                return GestureDetector(
+                  onTap: () => onClickNavigateTo(files[index]),
+                  child: PdfSlide(
+                    pdfDataModel: files[index],
+                  ),
                 );
               });
         },
