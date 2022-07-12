@@ -16,12 +16,13 @@ class PdfDataModelAdapter extends TypeAdapter<PdfDataModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PdfDataModel()
-      ..fileName = fields[0] as String
-      ..path = fields[1] as String
-      ..addDate = fields[2] as DateTime
-      ..lastViewedDate = fields[3] as DateTime
-      ..pinned = fields[4] as bool;
+    return PdfDataModel(
+      fileName: fields[0] as String,
+      path: fields[1] as String,
+      pinned: fields[4] as bool,
+      addDate: fields[2] as DateTime,
+      lastViewedDate: fields[3] as DateTime,
+    );
   }
 
   @override

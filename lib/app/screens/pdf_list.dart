@@ -9,6 +9,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:pdf_viewer/app/widgets/list_placeholder_page.dart';
 import 'package:date_format/date_format.dart';
 
+import '../API/selected_box_provider.dart';
 import '../models/pdfFileModel.dart';
 
 class PdfList extends StatefulWidget {
@@ -25,8 +26,7 @@ class _PdfListState extends State<PdfList> {
       List<PDFFileModel>? result = await getPlatformFile();
       if (!mounted || result == null) return;
 
-      getBoxProvider.addFilesToLocalStorage(
-          files: result, box: BoxType.selected);
+      selectedBoxProvider.addFilesToSelectedBox(files: result);
 
       //PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
       if (result.length > 1) {
@@ -35,7 +35,7 @@ class _PdfListState extends State<PdfList> {
         Navigator.of(context).pushNamed("/viewer", arguments: result.first);
       }
 
-      getBoxProvider.addFilesToLocalStorage(
+      getBoxProvider._addFilesToLocalStorage(
           files: result, box: BoxType.previouslyViewed);
     }
 
@@ -44,7 +44,7 @@ class _PdfListState extends State<PdfList> {
         IconButton(
             onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
         IconButton(
-            onPressed: () => getBoxProvider.removeFilesFromBox(
+            onPressed: () => getBoxProvider._removeFilesFromBox(
                 boxType: BoxType.previouslyViewed),
             icon: const Icon(Icons.clear_all)),
       ]),
@@ -81,7 +81,7 @@ class _PdfListState extends State<PdfList> {
 // if > 1, ??? maybe open modal, display files || load first file and have navigation to other files
 
 Future<List<PDFFileModel>?> getPlatformFile() async {
-  await getBoxProvider.getCurrentViewBox.clear();
+  await clearSelectedBox;
   List<String> allowedFIleTypes = ["pdf"];
   List<PDFFileModel> listOfModels;
 

@@ -102,7 +102,7 @@ class PdfImage extends StatelessWidget {
       PdfPage page;
       PdfPageImage pageImage;
       try {
-        PdfDataModel? data = getBoxProvider.getCurrentViewBox.get(pdfKey);
+        PdfDataModel? data = selectedBoxProvider.getItem(key: pdfKey);
 
         if (data == null) {
           throw Error();

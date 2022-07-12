@@ -8,8 +8,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(PdfDataModelAdapter());
-  await Hive.openBox<PdfDataModel>(SelectedBoxProvider.previouslyViewedFiles);
-  await Hive.openBox<PdfDataModel>(SelectedBoxProvider.currentViewBox);
+  await Hive.openBox<PdfDataModel>(SelectedBoxProvider.selectedViewBox);
+  await Hive.openBox<PdfDataModel>(SelectedBoxProvider.selectedViewBox);
   runApp(const PDFViewerApp());
 }
 

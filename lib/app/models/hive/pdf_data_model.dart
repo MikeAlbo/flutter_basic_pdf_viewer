@@ -18,4 +18,7 @@ class PdfDataModel extends HiveObject {
 
   @HiveField(4)
   late bool pinned;
+
+  PdfDataModel(
+      {required this.fileName, required this.path, required this.pinned, required this.addDate, required this.lastViewedDate});
 }

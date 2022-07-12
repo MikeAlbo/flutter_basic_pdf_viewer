@@ -10,60 +10,53 @@
 //  TODO: on error handling
 
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../models/hive/pdf_data_model.dart';
 import '../models/pdfFileModel.dart';
 
-enum BoxType { selected, previouslyViewed }
-
 class SelectedBoxProvider {
-  static const String currentViewBox = "currentViewBox";
-  static const String previouslyViewedFiles = "previouslyViewedFiles";
+  static const String selectedViewBox = "currentViewBox";
+
+//  static const String previouslyViewedFiles = "previouslyViewedFiles";
 
 // connect to hive box
-  static Box<PdfDataModel> _currentViewBox() =>
-      Hive.box<PdfDataModel>(currentViewBox);
+  static Box<PdfDataModel> _selectedViewBox() =>
+      Hive.box<PdfDataModel>(selectedViewBox);
 
-  static Box<PdfDataModel> _previousViewBox() =>
-      Hive.box<PdfDataModel>(previouslyViewedFiles);
-
-  Box<PdfDataModel> get getPreviousViewBox => _previousViewBox();
-
-  Box<PdfDataModel> get getCurrentViewBox => _currentViewBox();
+  Box<PdfDataModel> get getSelectedViewBox => _selectedViewBox();
 
 // add selected files to box (temp storage)
-  void addFilesToLocalStorage(
-      {required List<PDFFileModel> files, required BoxType box}) async {
+  void addFilesToSelectedBox({required List<PDFFileModel> files}) async {
     for (var file in files) {
-      PdfDataModel fileData = PdfDataModel()
-        ..path = file.file.path
-        ..fileName = file.title!
-        ..pinned = false
-        ..addDate = DateTime.now()
-        ..lastViewedDate = DateTime.now();
-      box == BoxType.selected
-          ? await _currentViewBox().add(fileData)
-          : await _previousViewBox().add(fileData);
+      PdfDataModel fileData = PdfDataModel(
+          fileName: file.title!,
+          path: file.file.path,
+          pinned: false,
+          addDate: DateTime.now(),
+          lastViewedDate: DateTime.now());
+      await _selectedViewBox().add(fileData);
     }
   }
 
   // get the list of files from the currentViewBox
   List<PdfDataModel> getFilesFromCurrent() {
-    return _currentViewBox().values.toList();
+    return _selectedViewBox().values.toList();
   }
 
-// remove a single file from box (UI control)
+  // get a single item by key
+  PdfDataModel? getItem({required int key}) {
+    return _selectedViewBox().get(key);
+  }
 
 // remove all files from box (upon dispose / called when new files selected)
-  void removeFilesFromBox({required BoxType boxType}) {
-    boxType == BoxType.selected
-        ? _currentViewBox().clear()
-        : _previousViewBox().clear();
-  }
+  void _removeFilesFromBox() => _selectedViewBox().clear();
 
 // dispose hive box
 }
 
 // get method to return class instance
-SelectedBoxProvider _boxProvider = SelectedBoxProvider();
+SelectedBoxProvider _selectedBoxProvider = SelectedBoxProvider();
 
-SelectedBoxProvider get getBoxProvider => _boxProvider;
+SelectedBoxProvider get selectedBoxProvider => _selectedBoxProvider;
+
+get clearSelectedBox => _selectedBoxProvider._removeFilesFromBox();

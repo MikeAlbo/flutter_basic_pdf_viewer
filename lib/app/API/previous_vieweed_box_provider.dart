@@ -23,8 +23,5 @@ bool checkForValidPath({required String path}) {
   //return await File(path).exists();
 }
 
-class PreviouslyViewedListApi {
-  //List<PdfDataModel> pdfs = getBoxProvider.getPreviousViewBox.values.toList();
-  ValueListenable<Box<PdfDataModel>> pdfListener =
-      getBoxProvider.getPreviousViewBox.listenable();
+class PreviousViewedBoxProvider {
 }

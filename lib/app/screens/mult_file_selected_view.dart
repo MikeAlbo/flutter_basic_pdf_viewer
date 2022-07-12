@@ -17,8 +17,7 @@ class MultiFileSelectedView extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(title: "Selected Files", actions: [
         IconButton(
-            onPressed: () =>
-                getBoxProvider.removeFilesFromBox(boxType: BoxType.selected),
+            onPressed: () => clearSelectedBox,
             icon: const Icon(Icons.clear_all))
       ]),
       body: const SafeArea(
@@ -60,7 +59,7 @@ class ListedFiles extends StatelessWidget {
     }
 
     return ValueListenableBuilder(
-      valueListenable: getBoxProvider.getCurrentViewBox.listenable(),
+      valueListenable: selectedBoxProvider.getSelectedViewBox.listenable(),
       builder: (context, box, _) {
         final files = box.values.toList().cast<PdfDataModel>();
         if (files.isEmpty) {
