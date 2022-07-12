@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pdf_viewer/app/API/box_provider.dart';
+import 'package:pdf_viewer/app/API/selected_box_provider.dart';
 import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -26,7 +26,7 @@ class _PdfListState extends State<PdfList> {
       if (!mounted || result == null) return;
 
       getBoxProvider.addFilesToLocalStorage(
-          files: result, box: BoxType.currentView);
+          files: result, box: BoxType.selected);
 
       //PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
       if (result.length > 1) {

@@ -14,7 +14,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pdf_viewer/app/API/box_provider.dart';
+import 'package:pdf_viewer/app/API/selected_box_provider.dart';
 
 import '../models/hive/pdf_data_model.dart';
 

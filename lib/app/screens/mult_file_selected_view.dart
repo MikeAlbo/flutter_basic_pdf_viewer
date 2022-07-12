@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pdf_viewer/app/API/box_provider.dart';
+import 'package:pdf_viewer/app/API/selected_box_provider.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:pdf_viewer/app/widgets/pdf_slide.dart';
 
@@ -18,7 +18,7 @@ class MultiFileSelectedView extends StatelessWidget {
       appBar: buildAppBar(title: "Selected Files", actions: [
         IconButton(
             onPressed: () =>
-                getBoxProvider.removeFilesFromBox(boxType: BoxType.currentView),
+                getBoxProvider.removeFilesFromBox(boxType: BoxType.selected),
             icon: const Icon(Icons.clear_all))
       ]),
       body: const SafeArea(

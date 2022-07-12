@@ -13,9 +13,9 @@ import 'package:hive/hive.dart';
 import '../models/hive/pdf_data_model.dart';
 import '../models/pdfFileModel.dart';
 
-enum BoxType { currentView, previouslyViewed }
+enum BoxType { selected, previouslyViewed }
 
-class BoxProvider {
+class SelectedBoxProvider {
   static const String currentViewBox = "currentViewBox";
   static const String previouslyViewedFiles = "previouslyViewedFiles";
 
@@ -40,7 +40,7 @@ class BoxProvider {
         ..pinned = false
         ..addDate = DateTime.now()
         ..lastViewedDate = DateTime.now();
-      box == BoxType.currentView
+      box == BoxType.selected
           ? await _currentViewBox().add(fileData)
           : await _previousViewBox().add(fileData);
     }
@@ -55,7 +55,7 @@ class BoxProvider {
 
 // remove all files from box (upon dispose / called when new files selected)
   void removeFilesFromBox({required BoxType boxType}) {
-    boxType == BoxType.currentView
+    boxType == BoxType.selected
         ? _currentViewBox().clear()
         : _previousViewBox().clear();
   }
@@ -64,6 +64,6 @@ class BoxProvider {
 }
 
 // get method to return class instance
-BoxProvider _boxProvider = BoxProvider();
+SelectedBoxProvider _boxProvider = SelectedBoxProvider();
 
-BoxProvider get getBoxProvider => _boxProvider;
+SelectedBoxProvider get getBoxProvider => _boxProvider;
