@@ -4,9 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
 import 'app/API/box_provider.dart';
 
-const pdfData =
-    "pdfData"; //  TODO: move to provider & need additional box for current loaded
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();

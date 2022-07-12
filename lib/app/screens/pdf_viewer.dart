@@ -33,7 +33,6 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
   @override
   Widget build(BuildContext context) {
     //loadPDF(file);
-
     return Scaffold(
       appBar: buildAppBar(
           title:

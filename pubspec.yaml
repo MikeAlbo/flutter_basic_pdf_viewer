@@ -41,6 +41,7 @@ dependencies:
   date_format: ^2.0.6
   path: ^1.8.2
   pdf_render: ^1.1.0
+  provider: ^6.0.3
 dev_dependencies:
   hive_generator: any
   build_runner: ^1.7.2
