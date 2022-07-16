@@ -64,6 +64,7 @@ class PdfList extends StatelessWidget {
           //       );
           //     });
           return ListView(
+            padding: const EdgeInsets.only(top: 15.0),
             children: box.getItems,
           );
         },

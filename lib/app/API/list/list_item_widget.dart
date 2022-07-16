@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/helpers/get_pdf_image.dart';
 import 'package:pdf_viewer/app/helpers/string_helpers.dart';
 import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
+import 'package:pdf_viewer/app/models/pdfFileModel.dart';
 import 'package:provider/provider.dart';
 
 import '../previous_viewed_box_provider.dart';
@@ -24,8 +28,16 @@ class _ListItemWidgetState extends State<ListItemWidget> {
     return Dismissible(
       key: Key(widget.pdfDataModel.fileName),
       background: Container(
-        color: Colors.red,
-        child: const Icon(Icons.delete),
+        decoration: BoxDecoration(
+            color: Colors.redAccent,
+            border: Border.all(color: Colors.black54, width: 0.5)),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        alignment: AlignmentDirectional.centerEnd,
+        //color: Colors.red,
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
       ),
       onDismissed: (direction) {
         Provider.of<PreviousViewedBoxProvider>(context, listen: false)
@@ -46,13 +58,31 @@ class ValidFileTile extends StatelessWidget {
 
   const ValidFileTile({Key? key, required this.pdfDataModel}) : super(key: key);
 
+  void navigate(BuildContext context) {
+    PDFFileModel fileModel = PDFFileModel(
+        file: File(pdfDataModel.path), title: pdfDataModel.fileName);
+    Navigator.of(context).pushNamed("/viewer", arguments: fileModel);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: PdfImage(
-        pdfModel: pdfDataModel,
+      onTap: () => navigate(context),
+      onLongPress: () {},
+      leading: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        child: PdfImage(
+          pdfModel: pdfDataModel,
+        ),
       ),
       title: Text(trimFileTitle(title: pdfDataModel.fileName)),
+      subtitle: Text("Last Viewed: ${formatDate(pdfDataModel.lastViewedDate, [
+            dd,
+            "/",
+            mm,
+            "/",
+            yyyy
+          ])}"),
       trailing: IconButton(
         icon: pdfDataModel.pinned
             ? const Icon(
