@@ -42,6 +42,15 @@ class PdfList extends StatelessWidget {
     }
 
     return Scaffold(
+      floatingActionButton:
+          context.watch<PreviousViewedBoxProvider>().getItems.isEmpty
+              ? null
+              : FloatingActionButton(
+                  enableFeedback: true,
+                  backgroundColor: Colors.lightBlue,
+                  onPressed: () => onClickLaunchFilePicker(),
+                  child: const Icon(Icons.picture_as_pdf_rounded),
+                ),
       appBar: buildAppBar(context: context, title: "pdf list", actions: [
         IconButton(
             onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
