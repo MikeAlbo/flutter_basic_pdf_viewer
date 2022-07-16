@@ -116,13 +116,28 @@ class InvalidFileTile extends StatelessWidget {
       title: Text(
         pdfDataModel.fileName,
         style: const TextStyle(
-          color: Colors.black87,
+          color: Colors.black26,
           decoration: TextDecoration.lineThrough,
         ),
       ),
       subtitle: const Text(
         "File no longer exist at location",
         style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: const [
+          Text(
+            "remove",
+            style:
+                TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w300),
+          ),
+          Icon(
+            Icons.chevron_left,
+            color: Colors.redAccent,
+          ),
+        ],
       ),
     );
   }
