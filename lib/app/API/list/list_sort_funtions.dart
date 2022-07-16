@@ -6,7 +6,7 @@ import 'list_item_widget.dart';
 
 bool checkForValidPath({required String path}) {
   //  TODO: move to helper file
-  return File(path).isAbsolute;
+  return File(path).existsSync();
   //return await File(path).exists();
 }
 
@@ -24,8 +24,10 @@ List<ListItemWidget> movePinnedFiles(List<PdfDataModel> files) {
   }
   List<ListItemWidget> tiles = [];
   tiles = items
-      .map((e) => ListItemWidget(
+      .map((e) =>
+      ListItemWidget(
           pdfDataModel: e, withValidPath: checkForValidPath(path: e.path)))
       .toList();
+
   return tiles;
 }
