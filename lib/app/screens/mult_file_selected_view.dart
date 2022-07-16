@@ -15,7 +15,7 @@ class MultiFileSelectedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(title: "Selected Files", actions: [
+      appBar: buildAppBar(context: context, title: "Selected Files", actions: [
         IconButton(
             onPressed: () => clearSelectedBox,
             icon: const Icon(Icons.clear_all))

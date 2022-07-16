@@ -35,6 +35,7 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
     //loadPDF(file);
     return Scaffold(
       appBar: buildAppBar(
+          context: context,
           title:
               "PDF View:  ${_isLoading ? 'Loading...' : widget.pdfFileModel.title!}"),
       body: SafeArea(

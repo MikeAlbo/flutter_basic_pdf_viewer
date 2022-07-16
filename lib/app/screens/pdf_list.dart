@@ -7,6 +7,7 @@ import 'package:pdf_viewer/app/API/selected_box_provider.dart';
 import 'package:pdf_viewer/app/helpers/file_helper.dart';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:pdf_viewer/app/widgets/list_placeholder_page.dart';
 import 'package:provider/provider.dart';
 
@@ -41,15 +42,12 @@ class PdfList extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("PDF LIST"),
-        actions: [
-          IconButton(
-              onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
-          IconButton(
-              onPressed: clearEntireList, icon: const Icon(Icons.clear_all)),
-        ],
-      ),
+      appBar: buildAppBar(context: context, title: "pdf list", actions: [
+        IconButton(
+            onPressed: onClickLaunchFilePicker, icon: const Icon(Icons.add)),
+        IconButton(
+            onPressed: clearEntireList, icon: const Icon(Icons.clear_all)),
+      ]),
       body: Consumer<PreviousViewedBoxProvider>(
         builder: (context, box, _) {
           if (box.getFiles.isEmpty) {

@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
-AppBar buildAppBar({
-  required String title,
-  bool centerTitle = true,
-  List<Widget>? actions}){
+AppBar buildAppBar(
+    {required String title,
+    bool centerTitle = true,
+    List<Widget>? actions,
+    required BuildContext context}) {
   return AppBar(
-    elevation: 1.0,
+    backgroundColor: Theme.of(context).canvasColor,
+    elevation: 0.5,
+    shadowColor: Colors.blueGrey,
+    actionsIconTheme: IconThemeData(color: Colors.black87),
     centerTitle: centerTitle,
-    title: Text(title),
+    title: Text(
+      title,
+      style: TextStyle(color: Colors.black87),
+    ),
     actions: actions,
   );
 }
