@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pdf_viewer/app/API/previous_vieweed_box_provider.dart';
+
 import 'package:pdf_viewer/app/routes.dart';
-import 'package:provider/provider.dart';
 
 class PDFViewerApp extends StatelessWidget {
   const PDFViewerApp({Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class PDFViewerApp extends StatelessWidget {
       ),
       initialRoute: "/",
       onGenerateRoute: _routes,
-
     );
   }
 }

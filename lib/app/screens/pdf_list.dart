@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pdf_viewer/app/API/previous_vieweed_box_provider.dart';
+
+import 'package:pdf_viewer/app/API/previous_viewed_box_provider.dart';
 import 'package:pdf_viewer/app/API/selected_box_provider.dart';
-import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
-import 'package:pdf_viewer/app/widgets/app_bar.dart';
+import 'package:pdf_viewer/app/helpers/file_helper.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:pdf_viewer/app/widgets/list_placeholder_page.dart';
-import 'package:date_format/date_format.dart';
 import 'package:provider/provider.dart';
 
 import '../models/pdfFileModel.dart';
@@ -18,7 +17,8 @@ class PdfList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<PreviousViewedBoxProvider>().getListOfFiles();
+    //context.watch<PreviousViewedBoxProvider>().getListOfFiles();
+    context.watch<PreviousViewedBoxProvider>().loadListItems();
     void onClickLaunchFilePicker() async {
       List<PDFFileModel>? result = await getPlatformFile();
       if (result == null) return;
@@ -56,13 +56,16 @@ class PdfList extends StatelessWidget {
             return ListPlaceholderPage(
                 openFileBrowser: onClickLaunchFilePicker);
           }
-          return ListView.builder(
-              itemCount: box.getFiles.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(box.getFiles[index].fileName),
-                );
-              });
+          // return ListView.builder(
+          //     itemCount: box.getFiles.length,
+          //     itemBuilder: (context, index) {
+          //       return ListTile(
+          //         title: Text(box.getFiles[index].fileName),
+          //       );
+          //     });
+          return ListView(
+            children: box.getItems,
+          );
         },
       ),
     );
@@ -75,7 +78,7 @@ class PdfList extends StatelessWidget {
 Future<List<PDFFileModel>?> getPlatformFile() async {
   await clearSelectedBox;
   List<String> allowedFIleTypes = ["pdf"];
-  List<PDFFileModel> listOfModels;
+  List<PDFFileModel> listOfModels = [];
 
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -84,9 +87,17 @@ Future<List<PDFFileModel>?> getPlatformFile() async {
 
   if (result == null) return null;
 
-  listOfModels = result.files
-      .map((f) => (PDFFileModel(file: File(f.path!), title: f.name)))
-      .toList();
+  SaveFiles saveFiles = SaveFiles();
+
+  for (var r in result.files) {
+    File f = await saveFiles.saveFileToAppStorage(File(r.path!), r.name);
+    listOfModels.add(PDFFileModel(file: f, title: r.name));
+  }
+
+  // listOfModels = result.files
+  //     .map((f) => (PDFFileModel(
+  //         file:  File(f.path!), title: f.name)))
+  //     .toList();
 
   return listOfModels;
 }

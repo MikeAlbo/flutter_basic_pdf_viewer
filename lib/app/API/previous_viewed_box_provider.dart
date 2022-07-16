@@ -11,20 +11,15 @@
 //  TODO: handle invalid item workflow
 
 // check for valid file path
-import 'dart:collection';
-import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pdf_viewer/app/API/selected_box_provider.dart';
+import 'package:pdf_viewer/app/API/list/list_item_widget.dart';
+import 'package:pdf_viewer/app/API/list/list_sort_funtions.dart';
+
 import 'package:pdf_viewer/app/models/pdfFileModel.dart';
 
 import '../models/hive/pdf_data_model.dart';
-
-bool checkForValidPath({required String path}) {
-  //  TODO: move to helper file
-  return File(path).isAbsolute;
-  //return await File(path).exists();
-}
 
 class PreviousViewedBoxProvider extends ChangeNotifier {
   static const String previousViewBox = "PreviousViewBox";
@@ -36,10 +31,20 @@ class PreviousViewedBoxProvider extends ChangeNotifier {
 
   List<PdfDataModel> get getFiles => _fileList;
 
+  List<ListItemWidget> _listWidgets = [];
+
+  List<ListItemWidget> get getItems => _listWidgets;
+
   //List<PdfDataModel> get getFiles => _fileList;
 
   PreviousViewedBoxProvider() {
     //getListOfFiles();
+  }
+
+  void loadListItems() {
+    Box<PdfDataModel> box = Hive.box<PdfDataModel>(previousViewBox);
+    _fileList = box.values.toList();
+    _listWidgets = buildList(_fileList);
   }
 
   // will call all of the functions used to build a list and sort
@@ -76,6 +81,30 @@ class PreviousViewedBoxProvider extends ChangeNotifier {
     box.clear();
     print("clear called");
     notifyListeners();
+  }
+
+  void removeItemFromBox({required int itemKey}) {
+    Box<PdfDataModel> box = Hive.box<PdfDataModel>(previousViewBox);
+    box.delete(itemKey);
+    print("item $itemKey -- has been removed");
+    notifyListeners();
+  }
+
+  void updateItemPinned({required int itemKey}) {
+    Box<PdfDataModel> box = Hive.box<PdfDataModel>(previousViewBox);
+    PdfDataModel? previousState = box.get(itemKey);
+    if (previousState != null) {
+      PdfDataModel newState = previousState;
+      newState.pinned = !newState.pinned;
+      box.put(itemKey, newState);
+    }
+    notifyListeners();
+  }
+
+  PdfDataModel? getItem({required int itemKey}) {
+    Box<PdfDataModel> box = Hive.box<PdfDataModel>(previousViewBox);
+    PdfDataModel? item = box.get(itemKey);
+    return item;
   }
 }
 

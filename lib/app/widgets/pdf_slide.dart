@@ -5,6 +5,8 @@ import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
 import 'package:date_format/date_format.dart';
 import 'package:path/path.dart' as p;
 
+import '../helpers/get_pdf_image.dart';
+
 // A PDF slide to preview either the first page of a document or an individual page for page scroll
 
 class PdfSlide extends StatefulWidget {
@@ -24,7 +26,7 @@ class _PdfSlideState extends State<PdfSlide> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Flexible(child: PdfImage(pdfKey: widget.pdfDataModel.key)),
+          Flexible(child: PdfImage(pdfModel: widget.pdfDataModel)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -89,60 +91,3 @@ String modifyTitle({int length = 30, required String title}) {
 // 6. swipe to clear file from cache
 // 7. possible "delete" function, remove from device
 // 8. clickable, to allow navigation to viewer
-
-class PdfImage extends StatelessWidget {
-  final int pdfKey;
-
-  const PdfImage({Key? key, required this.pdfKey}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    getImage(int pdfKey) async {
-      PdfDocument doc;
-      PdfPage page;
-      PdfPageImage pageImage;
-      try {
-        PdfDataModel? data = selectedBoxProvider.getItem(key: pdfKey);
-
-        if (data == null) {
-          throw Error();
-        }
-        String path = data.path;
-        doc = await PdfDocument.openFile(path);
-        page = await doc.getPage(1);
-        pageImage = await page.render();
-        await pageImage.createImageIfNotAvailable();
-      } catch (e) {
-        print(e);
-        return const Icon(
-          Icons.picture_as_pdf_rounded,
-          color: Colors.redAccent,
-          size: 50.0,
-        );
-      }
-      doc.dispose();
-      return RawImage(
-        image: pageImage.imageIfAvailable,
-        fit: BoxFit.cover,
-      );
-    }
-
-    return FutureBuilder(
-        future: getImage(pdfKey),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return const CircularProgressIndicator();
-          }
-
-          return Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(3.0)),
-                border: Border.all(
-                  width: 0.5,
-                  color: Colors.black54,
-                )),
-            child: snapshot.data,
-          );
-        });
-  }
-}
