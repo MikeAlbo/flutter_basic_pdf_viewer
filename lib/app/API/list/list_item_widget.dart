@@ -8,6 +8,7 @@ import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
 import 'package:pdf_viewer/app/models/pdfFileModel.dart';
 import 'package:provider/provider.dart';
 
+import '../../helpers/share_helper.dart';
 import '../previous_viewed_box_provider.dart';
 
 class ListItemWidget extends StatefulWidget {
@@ -68,7 +69,7 @@ class ValidFileTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () => navigate(context),
-      onLongPress: () {},
+      onLongPress: () => shareFile(context: context, files: [pdfDataModel]),
       leading: CircleAvatar(
         backgroundColor: Colors.transparent,
         child: PdfImage(
