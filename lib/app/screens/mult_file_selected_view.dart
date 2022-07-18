@@ -8,17 +8,24 @@ import 'package:pdf_viewer/app/widgets/pdf_slide.dart';
 
 import '../models/hive/pdf_data_model.dart';
 import '../models/pdfFileModel.dart';
+import '../helpers/share_helper.dart';
 
 class MultiFileSelectedView extends StatelessWidget {
   const MultiFileSelectedView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    void shareAllFiles(BuildContext context) {
+      var b = selectedBoxProvider.getSelectedViewBox;
+      final files = b.values.toList().cast<PdfDataModel>();
+      shareFile(context: context, files: files);
+    }
+
     return Scaffold(
       appBar: buildAppBar(context: context, title: "Selected Files", actions: [
         IconButton(
-            onPressed: () => clearSelectedBox,
-            icon: const Icon(Icons.clear_all))
+            onPressed: () => shareAllFiles(context),
+            icon: const Icon(Icons.ios_share))
       ]),
       body: const SafeArea(
         child: ListedFiles(),
