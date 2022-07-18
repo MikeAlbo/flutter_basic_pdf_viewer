@@ -12,7 +12,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/hive/pdf_data_model.dart';
-import '../models/pdfFileModel.dart';
+import '../models/pdf_file_model.dart';
 
 class SelectedBoxProvider {
   static const String selectedViewBox = "currentViewBox";

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
-import '../models/pdfFileModel.dart';
+import '../models/pdf_file_model.dart';
 
 class PDFViewerScreen extends StatefulWidget {
   final PDFFileModel pdfFileModel;

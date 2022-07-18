@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/pdfFileModel.dart';
+import '../models/pdf_file_model.dart';
 
 showMultiFileModal(
     {required List<PDFFileModel> list, required BuildContext context}) {

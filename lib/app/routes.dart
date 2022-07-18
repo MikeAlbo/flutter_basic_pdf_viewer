@@ -4,7 +4,7 @@ import 'package:pdf_viewer/app/screens/mult_file_selected_view.dart';
 import 'package:pdf_viewer/app/screens/pdf_list.dart';
 import 'package:pdf_viewer/app/screens/pdf_viewer.dart';
 
-import 'models/pdfFileModel.dart';
+import 'models/pdf_file_model.dart';
 
 Route getListView({required RouteSettings settings}) {
   return MaterialPageRoute(builder: (BuildContext context) {

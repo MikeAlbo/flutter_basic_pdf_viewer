@@ -11,7 +11,7 @@ import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:pdf_viewer/app/widgets/list_placeholder_page.dart';
 import 'package:provider/provider.dart';
 
-import '../models/pdfFileModel.dart';
+import '../models/pdf_file_model.dart';
 
 class PdfList extends StatelessWidget {
   const PdfList({Key? key}) : super(key: key);
@@ -21,20 +21,21 @@ class PdfList extends StatelessWidget {
     //context.watch<PreviousViewedBoxProvider>().getListOfFiles();
     context.watch<PreviousViewedBoxProvider>().loadListItems();
     void onClickLaunchFilePicker() async {
-      List<PDFFileModel>? result = await getPlatformFile();
-      if (result == null) return;
-
-      selectedBoxProvider.addFilesToSelectedBox(files: result);
-
-      //PDFFileModel f = PDFFileModel(file: result.file, title: result.title);
-      if (result.length > 1) {
-        Navigator.of(context).pushNamed("/multiFileSelected");
-      } else {
-        Navigator.of(context).pushNamed("/viewer", arguments: result.first);
-      }
-
-      Provider.of<PreviousViewedBoxProvider>(context, listen: false)
-          .addFilesToBox(files: result);
+      await getPlatformFile().then((value) => {
+            if (value != null)
+              {
+                selectedBoxProvider.addFilesToSelectedBox(files: value),
+                if (value.length > 1)
+                  {Navigator.of(context).pushNamed("/multiFileSelected")}
+                else
+                  {
+                    Navigator.of(context)
+                        .pushNamed("/viewer", arguments: value.first)
+                  },
+                Provider.of<PreviousViewedBoxProvider>(context, listen: false)
+                    .addFilesToBox(files: value)
+              }
+          });
     }
 
     void clearEntireList() {
@@ -101,11 +102,6 @@ Future<List<PDFFileModel>?> getPlatformFile() async {
     File f = await saveFiles.saveFileToAppStorage(File(r.path!), r.name);
     listOfModels.add(PDFFileModel(file: f, title: r.name));
   }
-
-  // listOfModels = result.files
-  //     .map((f) => (PDFFileModel(
-  //         file:  File(f.path!), title: f.name)))
-  //     .toList();
 
   return listOfModels;
 }

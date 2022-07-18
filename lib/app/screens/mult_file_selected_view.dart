@@ -7,7 +7,7 @@ import 'package:pdf_viewer/app/widgets/app_bar.dart';
 import 'package:pdf_viewer/app/widgets/pdf_slide.dart';
 
 import '../models/hive/pdf_data_model.dart';
-import '../models/pdfFileModel.dart';
+import '../models/pdf_file_model.dart';
 import '../helpers/share_helper.dart';
 
 class MultiFileSelectedView extends StatelessWidget {

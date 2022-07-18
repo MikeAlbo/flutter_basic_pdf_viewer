@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/helpers/get_pdf_image.dart';
 import 'package:pdf_viewer/app/helpers/string_helpers.dart';
 import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
-import 'package:pdf_viewer/app/models/pdfFileModel.dart';
+import 'package:pdf_viewer/app/models/pdf_file_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/share_helper.dart';

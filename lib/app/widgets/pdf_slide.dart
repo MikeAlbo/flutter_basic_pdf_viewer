@@ -1,10 +1,7 @@
-import 'package:pdf_render/pdf_render.dart';
 import 'package:flutter/material.dart';
-import 'package:pdf_viewer/app/API/selected_box_provider.dart';
+
 import 'package:pdf_viewer/app/helpers/string_helpers.dart';
 import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
-import 'package:date_format/date_format.dart';
-import 'package:path/path.dart' as p;
 
 import '../helpers/get_pdf_image.dart';
 
@@ -48,21 +45,3 @@ class _PdfSlideState extends State<PdfSlide> {
     );
   }
 }
-
-String getDirFromPath({required String path}) {
-  String d = p.basename(p.dirname(path));
-  return d.substring(d.lastIndexOf(".") + 1);
-}
-
-String modifyTitle({int length = 30, required String title}) {
-  return title.length > length
-      ? title.replaceRange(length, title.length, "...")
-      : title;
-}
-
-//  TODO: slide should have a caption (file name or page number
-//  TODO: container should be a fixed size, no matter the size of the image/ page
-//  TODO: should have a placeholder text/ icon if the image/ page can not load
-//  TODO: should have an icon showing the number of pages in the document
-//  TODO: should have a loading icon while the data is loading
-//  TODO: optional swipe to remove

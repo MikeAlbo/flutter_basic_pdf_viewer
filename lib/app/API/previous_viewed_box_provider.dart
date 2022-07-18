@@ -17,7 +17,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pdf_viewer/app/API/list/list_item_widget.dart';
 import 'package:pdf_viewer/app/API/list/list_sort_funtions.dart';
 
-import 'package:pdf_viewer/app/models/pdfFileModel.dart';
+import 'package:pdf_viewer/app/models/pdf_file_model.dart';
 
 import '../models/hive/pdf_data_model.dart';
 
