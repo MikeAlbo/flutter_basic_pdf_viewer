@@ -38,17 +38,15 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
           context: context,
           title:
               "PDF View:  ${_isLoading ? 'Loading...' : widget.pdfFileModel.title!}"),
-      body: SafeArea(
-        child: Center(
-          child: _isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : PDFViewer(
-                  document: document,
-                  scrollDirection: Axis.vertical,
-                ),
-        ),
+      body: Center(
+        child: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : PDFViewer(
+                document: document,
+                scrollDirection: Axis.vertical,
+              ),
       ),
     );
   }

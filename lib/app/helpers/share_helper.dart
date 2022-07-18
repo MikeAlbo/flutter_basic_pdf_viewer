@@ -12,11 +12,11 @@ void shareFile(
 
   try {
     if (files.isEmpty) {
-      throw "List of files is MT";
+      throw Exception("List of files is MT");
     }
     List<String> paths = files.map((e) => e.path).toList();
     List<String> names =
-        files.map((e) => trimFileTitle(title: e.fileName, len: 10)).toList();
+        files.map((e) => e.fileName.trimText(len: 15, suffix: "pdf")).toList();
     String msgSubject =
         "${customMessage ?? "Here are the PDF files: "} ${names.length < 2 ? names.first : names.join(", ")} ";
 

@@ -6,15 +6,16 @@ AppBar buildAppBar(
     List<Widget>? actions,
     required BuildContext context}) {
   return AppBar(
-    backgroundColor: Theme.of(context).canvasColor,
-    elevation: 1.0,
+    backgroundColor: Colors.grey[800],
+    //Theme.of(context).canvasColor,
+    elevation: 3.0,
     shadowColor: Colors.lightBlue,
     //actionsIconTheme: const IconThemeData(color: Colors.black87),
-    iconTheme: const IconThemeData(color: Colors.black87),
+    iconTheme: const IconThemeData(color: Colors.white),
     centerTitle: centerTitle,
     title: Text(
       title,
-      style: const TextStyle(color: Colors.black87),
+      style: const TextStyle(color: Colors.white),
     ),
     actions: actions,
   );

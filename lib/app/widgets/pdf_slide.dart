@@ -1,6 +1,7 @@
 import 'package:pdf_render/pdf_render.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf_viewer/app/API/selected_box_provider.dart';
+import 'package:pdf_viewer/app/helpers/string_helpers.dart';
 import 'package:pdf_viewer/app/models/hive/pdf_data_model.dart';
 import 'package:date_format/date_format.dart';
 import 'package:path/path.dart' as p;
@@ -35,25 +36,11 @@ class _PdfSlideState extends State<PdfSlide> {
                 height: 10,
               ),
               Text(
-                modifyTitle(title: widget.pdfDataModel.fileName),
+                widget.pdfDataModel.fileName.trimText(suffix: "pdf"),
                 softWrap: true,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleSmall!,
               ),
-              // Text(
-              //   getDirFromPath(path: widget.pdfDataModel.path),
-              //   style: Theme.of(context).textTheme.caption,
-              // ),
-              // Text(
-              //   "date added: ${formatDate(widget.pdfDataModel.addDate, [
-              //         mm,
-              //         "/",
-              //         dd,
-              //         "/",
-              //         yyyy
-              //       ])}",
-              //   style: Theme.of(context).textTheme.caption,
-              // ),
             ],
           ),
         ],
