@@ -5,10 +5,11 @@ An app to view, share, and print PDFs
 ## requirements
 
 * can load a PDF from the local device  :white_check_mark:
-* can share a PDF
-* can print a PDF
-* can view a list of recent PDFs
-* can scroll, zoom, next/ previous page through a PDF
+* can share a PDF :white_check_mark:
+* can print a PDF :white_check_mark:
+* can view a list of recent PDFs :white_check_mark:
+* can scroll, zoom, next/ previous page through a PDF :white_check_mark:
+    * (working with plugin, considering making custom controller)
 * can go to a given page in a PDF
 
 ## packages
