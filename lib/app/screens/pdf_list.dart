@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 
 import '../models/pdf_file_model.dart';
 
+//  TODO: onDismiss error! remove widget from tree before updating reference docs
+//  TODO: if screen larger than phone, list should be in container 1/2 width of device (or so) seperated from background
 class PdfList extends StatelessWidget {
   const PdfList({Key? key}) : super(key: key);
 

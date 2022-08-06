@@ -10,6 +10,8 @@ import '../models/hive/pdf_data_model.dart';
 import '../models/pdf_file_model.dart';
 import '../helpers/share_helper.dart';
 
+//TODO: if screen larger than phone, list should be in container 1/2 width of device (or so) seperated from background
+
 class MultiFileSelectedView extends StatelessWidget {
   const MultiFileSelectedView({Key? key}) : super(key: key);
 

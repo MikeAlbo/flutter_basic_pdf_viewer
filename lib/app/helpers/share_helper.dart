@@ -17,20 +17,27 @@ void shareFile(
     List<String> paths = files.map((e) => e.path).toList();
     List<String> names =
         files.map((e) => e.fileName.trimText(len: 15, suffix: "pdf")).toList();
-    String msgSubject =
-        "${customMessage ?? "Here are the PDF files: "} ${names.length < 2 ? names.first : names.join(", ")} ";
+    String msgSubject = buildCustomMessage(customMessage, names: names);
 
     await Share.shareFilesWithResult(paths,
             subject: msgSubject,
             sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size)
         .then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Shared files: ${value.status}"),
-        ),
-      );
+      if (value.status == ShareResultStatus.success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(buildCustomMessage("These files were shared! : ",
+                names: names)),
+          ),
+        );
+      }
     });
   } catch (e) {
     print(e);
   }
+}
+
+String buildCustomMessage(String? customMessage,
+    {required List<String> names}) {
+  return "${customMessage ?? "Here are the PDF files: "} ${names.length < 2 ? names.first : names.join(", ")} ";
 }
